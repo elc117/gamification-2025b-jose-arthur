@@ -14,31 +14,31 @@ public class MenuInicial extends TelaBase {
     private Texture backgroundImage;
 
     public MenuInicial(Core game) {
-        super(game); // <-- IMPORTANTE!
+        super(game);
 
         backgroundImage = new Texture("background.png");
         Image bgImage = new Image(backgroundImage);
 
-        Table buttonTable = new Table();
+        Table menuTable = new Table();
 
         TextButton playButton = new TextButton("Jogar", skin);
         TextButton quitButton = new TextButton("Sair", skin);
 
-        buttonTable.add(playButton).fillX().uniformX().pad(10);
-        buttonTable.row();
-        buttonTable.add(quitButton).fillX().uniformX().pad(10);
+        menuTable.add(playButton).size(150, 50).pad(10);
+        menuTable.row();
+        menuTable.add(quitButton).size(150, 50).pad(10);
 
         Stack stack = new Stack();
         stack.setFillParent(true);
         stack.add(bgImage);
-        stack.add(buttonTable);
+        stack.add(menuTable);
 
         stage.addActor(stack);
 
         playButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("Menu Principal", "Botão precionado");
+                game.setScreen(new TelaJogo(game));
             }
         });
 
@@ -52,7 +52,7 @@ public class MenuInicial extends TelaBase {
 
     @Override
     public void dispose() {
-        super.dispose(); // <-- Chama o dispose() da BaseScreen (para stage e skin)
-        backgroundImage.dispose(); // Libera a textura específica desta tela
+        super.dispose();
+        backgroundImage.dispose();
     }
 }
