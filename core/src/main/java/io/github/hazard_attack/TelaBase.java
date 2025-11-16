@@ -22,7 +22,6 @@ public class TelaBase implements Screen{
     private void criarTelaBase() {
         skin = new Skin(Gdx.files.internal("metalui/metal-ui.json"));
     }
-
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
