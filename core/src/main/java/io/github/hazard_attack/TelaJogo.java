@@ -1,32 +1,40 @@
 package io.github.hazard_attack;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class TelaJogo extends TelaBase{
     int pontos = 0;
-    private Texture backgroundImage;
+    int modifier = 1;
+    private final ImageTextButton upgradeButton;
     public TelaJogo(Core game) {
         super(game);
 
-        backgroundImage = new Texture("background.png");
+        Texture backgroundImage = new Texture("background-main.png");
         Image bgImage = new Image(backgroundImage);
 
+
         Table gameTable = new Table();
-        TextButton pointButton = new TextButton("Clicar", skin);
+        gameTable.setFillParent(true);
+        //gameTable.setDebug(true); //debug da tabela REMOVERRRRRRRRR!!!!!!!!!!!!!!!!!
 
-        TextButton quitButton = new TextButton("Sair", skin);
+        ImageButton pointButton = new ImageButton(skin, "virus");
+        upgradeButton = new ImageTextButton("Vacina [2x pts]", skin, "vacina");
+        upgradeButton.setDisabled(true);
         Label pontosLabel = new Label("Pontos: 0", skin);
-        gameTable.add(pointButton).size(150, 50).pad(10);
-        gameTable.add(pontosLabel).pad(10);
+
+        pointButton.setTransform(true);
+        pointButton.setOrigin(125, 125);
+        pointButton.addAction(Actions.forever(Actions.rotateBy(360, 8f)));
+
+        gameTable.add(pontosLabel).colspan(2).expand().top().left().pad(10);
         gameTable.row();
-        gameTable.add(quitButton).size(150, 50).pad(10);
-
-
+        gameTable.add(pointButton).size(250, 250).expand().bottom().left().pad(50);
+        gameTable.add(upgradeButton).size(180, 40).expand().bottom().right().pad(10);
 
         Stack stack = new Stack();
         stack.setFillParent(true);
@@ -34,17 +42,33 @@ public class TelaJogo extends TelaBase{
         stack.add(gameTable);
 
         stage.addActor(stack);
-        quitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });
         pointButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                pontos = pontos + 1;
+                pontos = pontos + modifier;
                 pontosLabel.setText("Pontos:" + pontos);
+
+                if(pontos >= 10) {
+                    if (upgradeButton.isDisabled()) {
+                        upgradeButton.setDisabled(false);
+                    }
+                } else {
+                    if (!upgradeButton.isDisabled()) {
+                        upgradeButton.setDisabled(true);
+                    }
+                }
+            }
+        });
+
+        upgradeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (pontos >= 10) {
+                    pontos = pontos - 10;
+                    pontosLabel.setText("Pontos: " + pontos);
+                    modifier = 2;
+                    upgradeButton.remove();
+                }
             }
         });
     }
