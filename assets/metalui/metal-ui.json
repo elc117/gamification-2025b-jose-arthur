@@ -309,10 +309,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		font: fonte-pixel
 		fontColor: black
 		disabledFontColor: gray
-		up: button
-		down: button-pressed
-		over: button-over
-		disabled: button-pressed
+		up: base-red
+		down: base-press-red
+		over: base-red
+		disabled: base-disabled
+		pressedOffsetX: -1
+		pressedOffsetY: -1
 	}
 	toggle: {
 		font: fonte-pixel
