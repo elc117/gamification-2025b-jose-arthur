@@ -6,12 +6,42 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 		markupEnabled: false
 		flip: false
 	}
+	fonte-pixel: {
+		file: fonte.fnt
+		scaledSize: 10
+		markupEnabled: false
+		flip: false
+	}
+	fonte-titulo: {
+		file: fonte-titulo.fnt
+		scaledSize: 25
+		markupEnabled: false
+		flip: false
+	}
+	titulo: {
+		file: titulo.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
 }
 com.badlogic.gdx.graphics.Color: {
 	black: {
 		r: 0
 		g: 0
 		b: 0
+		a: 1
+	}
+	disabled-ui: {
+		r: 0.25490198
+		g: 0.47843137
+		b: 0.5686275
+		a: 1
+	}
+	gray: {
+		r: 0.1882353
+		g: 0.1882353
+		b: 0.1882353
 		a: 1
 	}
 	red: {
@@ -26,11 +56,35 @@ com.badlogic.gdx.graphics.Color: {
 		b: 0.45490196
 		a: 1
 	}
+	vermelho-ui: {
+		r: 0.67058825
+		g: 0.03529412
+		b: 0.03529412
+		a: 0.89325875
+	}
+	vermelho-ui-pressed: {
+		r: 0.6
+		g: 0.003921569
+		b: 0.003921569
+		a: 0.8876405
+	}
 	white: {
 		r: 1
 		g: 1
 		b: 1
 		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable: {
+	virus-sprite-2: {
+		region: virus-sprite-2
+		minWidth: 235
+		minHeight: 235
+	}
+	vacina-sprite: {
+		region: vacina-sprite
+		minWidth: 35
+		minHeight: 35
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
@@ -52,12 +106,31 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 			a: 1
 		}
 	}
+	vacina-sprite-disabled: {
+		name: vacina-sprite
+		color: black
+		minWidth: 35
+		minHeight: 35
+	}
+	base-red: {
+		name: base
+		color: vermelho-ui
+	}
+	base-press-red: {
+		name: base-press
+		color: vermelho-ui-pressed
+	}
+	base-disabled: {
+		name: base
+		color: disabled-ui
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
 		up: button
 		down: button-pressed
 		over: button-over
+		disabled: button-pressed
 	}
 	toggle: {
 		up: button
@@ -102,14 +175,20 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
 		down: button-pressed
 		over: button-over
 	}
+	virus: {
+		imageUp: virus-sprite
+		imageDown: virus-sprite-2
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 	default: {
-		font: font
+		font: fonte-pixel
 		fontColor: black
+		disabledFontColor: gray
 		up: button
 		down: button-pressed
 		over: button-over
+		disabled: button-pressed
 	}
 	radio: {
 		imageUp: radio
@@ -127,12 +206,24 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 		font: font
 		fontColor: black
 	}
+	vacina: {
+		imageUp: vacina-sprite
+		imageDisabled: vacina-sprite-disabled
+		font: fonte-pixel
+		fontColor: black
+		disabledFontColor: gray
+		up: base-red
+		down: base-press-red
+		disabled: base-disabled
+		pressedOffsetX: -1
+		pressedOffsetY: -1
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: font
-		fontColor: RGBA_32_203_116_255
-		background: button-pressed
+		font: fonte-pixel
+		fontColor: black
+		background: base-press-red
 	}
 	white: {
 		font: font
@@ -142,10 +233,18 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		font: font
 		fontColor: red
 	}
-	page: {
-		font: font
+	clear: {
+		font: fonte-pixel
 		fontColor: black
-		background: page
+	}
+	green: {
+		font: fonte-pixel
+		fontColor: RGBA_32_203_116_255
+		background: button-pressed
+	}
+	title: {
+		font: titulo
+		fontColor: vermelho-ui
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
@@ -207,14 +306,16 @@ com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
-		font: font
+		font: fonte-pixel
 		fontColor: black
+		disabledFontColor: gray
 		up: button
 		down: button-pressed
 		over: button-over
+		disabled: button-pressed
 	}
 	toggle: {
-		font: font
+		font: fonte-pixel
 		fontColor: black
 		up: button
 		down: button-pressed
