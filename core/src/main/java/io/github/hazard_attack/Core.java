@@ -9,6 +9,7 @@ public class Core extends Game {
     public void create() {
         setScreen(new MenuInicial(this));
     }
+
     @Override
     public void resize(int width, int height){
     }

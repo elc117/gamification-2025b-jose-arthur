@@ -3,10 +3,7 @@ package io.github.hazard_attack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MenuInicial extends TelaBase {
@@ -21,12 +18,12 @@ public class MenuInicial extends TelaBase {
 
         Table menuTable = new Table();
 
+        Label titulo = new Label("Viral Clicker", skin, "title");
         TextButton playButton = new TextButton("Jogar", skin);
-        TextButton quitButton = new TextButton("Sair", skin);
 
-        menuTable.add(playButton).size(150, 50).pad(10);
+        menuTable.add(titulo).size(150, 150).pad(10);
         menuTable.row();
-        menuTable.add(quitButton).size(150, 50).pad(10);
+        menuTable.add(playButton).size(150, 50).pad(10);
 
         Stack stack = new Stack();
         stack.setFillParent(true);
@@ -42,12 +39,6 @@ public class MenuInicial extends TelaBase {
             }
         });
 
-        quitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });
     }
 
     @Override
