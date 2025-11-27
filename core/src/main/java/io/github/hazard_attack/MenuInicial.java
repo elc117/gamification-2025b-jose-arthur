@@ -21,9 +21,8 @@ public class MenuInicial extends TelaBase {
         Label titulo = new Label("Viral Clicker", skin, "title");
         TextButton playButton = new TextButton("Jogar", skin);
 
-        menuTable.add(titulo).size(150, 150).pad(10);
-        menuTable.row();
-        menuTable.add(playButton).size(150, 50).pad(10);
+        menuTable.add(titulo).expandX().top().padTop(70).padBottom(10).row();
+        menuTable.add(playButton).size(150, 30).expandY().center().row();
 
         Stack stack = new Stack();
         stack.setFillParent(true);
