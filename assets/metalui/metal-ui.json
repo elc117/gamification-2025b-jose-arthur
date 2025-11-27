@@ -20,7 +20,7 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	}
 	titulo: {
 		file: titulo.fnt
-		scaledSize: -1
+		scaledSize: 50
 		markupEnabled: false
 		flip: false
 	}
@@ -86,6 +86,16 @@ com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable: {
 		minWidth: 35
 		minHeight: 35
 	}
+	nurse-sprite: {
+		region: nurse-sprite
+		minWidth: 35
+		minHeight: 35
+	}
+	doctor-sprite: {
+		region: doctor-sprite
+		minWidth: 35
+		minHeight: 35
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	black: {
@@ -123,6 +133,18 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	base-disabled: {
 		name: base
 		color: disabled-ui
+	}
+	nurse-sprite-disable: {
+		name: nurse-sprite
+		color: black
+		minWidth: 35
+		minHeight: 35
+	}
+	doctor-sprite-disable: {
+		name: doctor-sprite
+		color: black
+		minWidth: 35
+		minHeight: 35
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
@@ -209,6 +231,30 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 	vacina: {
 		imageUp: vacina-sprite
 		imageDisabled: vacina-sprite-disabled
+		font: fonte-pixel
+		fontColor: black
+		disabledFontColor: gray
+		up: base-red
+		down: base-press-red
+		disabled: base-disabled
+		pressedOffsetX: -1
+		pressedOffsetY: -1
+	}
+	nurse: {
+		imageUp: nurse-sprite
+		imageDisabled: nurse-sprite-disable
+		font: fonte-pixel
+		fontColor: black
+		disabledFontColor: gray
+		up: base-red
+		down: base-press-red
+		disabled: base-disabled
+		pressedOffsetX: -1
+		pressedOffsetY: -1
+	}
+	doctor: {
+		imageUp: doctor-sprite
+		imageDisabled: doctor-sprite-disable
 		font: fonte-pixel
 		fontColor: black
 		disabledFontColor: gray
