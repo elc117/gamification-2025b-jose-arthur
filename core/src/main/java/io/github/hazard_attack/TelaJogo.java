@@ -2,7 +2,6 @@ package io.github.hazard_attack;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -11,6 +10,19 @@ public class TelaJogo extends TelaBase{
     int pontos = 0;
     int modifier = 1;
     private final ImageTextButton upgradeButton;
+    private final Table gameTable;
+    private final Label pontosLabel;
+    float passivePointsPerSecond = 0;
+    float timeSinceLastTick = 0;
+    final float tickInterval = 0.5f;
+
+    int nurseCount = 0;
+    int nurseCost = 50;
+    final float nursePPS = 2.0f;
+
+    int doctorCount = 0;
+    int doctorCost = 200;
+    final float doctorPPS = 8.0f;
     public TelaJogo(Core game) {
         super(game);
 
@@ -18,23 +30,36 @@ public class TelaJogo extends TelaBase{
         Image bgImage = new Image(backgroundImage);
 
 
-        Table gameTable = new Table();
+        gameTable = new Table();
         gameTable.setFillParent(true);
-        //gameTable.setDebug(true); //debug da tabela REMOVERRRRRRRRR!!!!!!!!!!!!!!!!!
 
         ImageButton pointButton = new ImageButton(skin, "virus");
-        upgradeButton = new ImageTextButton("Vacina [2x pts]", skin, "vacina");
+        upgradeButton = new ImageTextButton("(10) Vacina [2x pts]", skin, "vacina");
         upgradeButton.setDisabled(true);
-        Label pontosLabel = new Label("Pontos: 0", skin);
+        ImageTextButton nurse = new ImageTextButton("Enfermeiro(a)"+" ["+ nurseCost + "]", skin, "nurse");
+        ImageTextButton doctor = new ImageTextButton("Doutor(a)"+" ["+ doctorCost + "]", skin, "doctor");
+        pontosLabel = new Label("Pontos: 0", skin);
 
         pointButton.setTransform(true);
         pointButton.setOrigin(125, 125);
-        pointButton.addAction(Actions.forever(Actions.rotateBy(360, 8f)));
+        pointButton.addAction(Actions.forever(Actions.rotateBy(360, 12f)));
 
-        gameTable.add(pontosLabel).colspan(2).expand().top().left().pad(10);
-        gameTable.row();
-        gameTable.add(pointButton).size(250, 250).expand().bottom().left().pad(50);
-        gameTable.add(upgradeButton).size(180, 40).expand().bottom().right().pad(10);
+        Table topRightTable = new Table();
+        topRightTable.add(nurse).width(200).height(50).top().right().padRight(10);
+        topRightTable.add(doctor).width(200).height(50).top().right().padRight(10);
+
+        gameTable.add(pontosLabel).top().left().padTop(20).padLeft(20).expandX();
+        gameTable.add(topRightTable).top().right().padTop(20).padRight(20).row();
+
+        gameTable.add().colspan(2).expandY().row();
+
+        Table bottomTable = new Table();
+        bottomTable.setFillParent(false);
+
+        bottomTable.add(pointButton).size(250, 250).padLeft(50).padBottom(50).expandX().left();
+        bottomTable.add(upgradeButton).width(200).height(50).padRight(10).padBottom(10).expandX().right();
+
+        gameTable.add(bottomTable).colspan(2).fillX().bottom();
 
         Stack stack = new Stack();
         stack.setFillParent(true);
@@ -57,6 +82,49 @@ public class TelaJogo extends TelaBase{
                         upgradeButton.setDisabled(true);
                     }
                 }
+                if (pontos > 0 && Math.random() < 0.02){
+                    int perda = (int) (pontos * 0.2);
+                    pontos = pontos - perda;
+
+                    Dialog dialog = new Dialog("!!!", skin){
+                        @Override
+                        protected void result(Object object) {
+                        }
+                    };
+                    dialog.text("O vírus sofreu uma mutação( -" + perda + "pontos)").pad(20);
+
+                    dialog.button("OK");
+                    dialog.show(stage);
+                }
+            }
+        });
+
+        nurse.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (pontos >= nurseCost) {
+                    pontos -= nurseCost;
+                    nurseCount++;
+                    passivePointsPerSecond += nursePPS;
+                    pontosLabel.setText("Pontos: " + pontos);
+                    nurseCost = (int) (nurseCost * 1.5);
+                    nurse.setText("Enfermeiro(a) [" + nurseCost + " pts]");
+                }
+            }
+        });
+
+        doctor.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (pontos >= doctorCost) {
+                    pontos -= doctorCost;
+                    doctorCount++;
+                    passivePointsPerSecond += doctorPPS;
+                    pontosLabel.setText("Pontos: " + pontos);
+                    doctorCost = (int) (doctorCost * 1.5);
+                    doctor.setText("Doutor(a) [" + doctorCost + " pts]");
+
+                }
             }
         });
 
@@ -72,4 +140,24 @@ public class TelaJogo extends TelaBase{
             }
         });
     }
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+
+        timeSinceLastTick += delta;
+
+        if (timeSinceLastTick >= tickInterval) {
+            int pointsToAdd = (int) (passivePointsPerSecond * tickInterval);
+
+            pontos += pointsToAdd;
+
+            timeSinceLastTick -= tickInterval;
+
+            if (pointsToAdd > 0) {
+                pontosLabel.setText("Pontos: " + pontos);
+            }
+        }
+    }
 }
+
+
