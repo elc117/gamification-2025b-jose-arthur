@@ -91,7 +91,7 @@ public class TelaJogo extends TelaBase{
                         protected void result(Object object) {
                         }
                     };
-                    dialog.text("O vírus sofreu uma mutação( -" + perda + "pontos)").pad(20);
+                    dialog.text("O virus sofreu uma mutacao( -" + perda + "pontos)").pad(20);
 
                     dialog.button("OK");
                     dialog.show(stage);
